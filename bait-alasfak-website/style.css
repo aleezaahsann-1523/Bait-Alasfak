@@ -236,8 +236,8 @@ button, input, select, textarea { font: inherit; }
 .header.is-scrolled .header__bar,
 .header.menu-open .header__bar {
   max-width: 1060px;
-  background: rgba(100, 100, 100, 0.72);
-  
+  background: rgba(43, 50, 72, 0.72);
+
   border-color: rgba(255, 255, 255, 0.14);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
   -webkit-backdrop-filter: blur(16px);
@@ -476,119 +476,136 @@ button, input, select, textarea { font: inherit; }
 .checklist li { display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.5; }
 .checklist .icon { width: 15px; height: 15px; margin-top: 0.2rem; color: var(--accent); }
 
-/* ---------- 9. Services ---------- */
+/* ---------- 9. Services ----------
+   Card style: light "photo" panel on top (icon + ghost number),
+   a circular icon badge overlapping the panel/body edge, then
+   title + description. No button/link on the card itself —
+   clicking the whole card just pre-selects it in the enquiry form. */
 .services {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--line);
-  overflow: hidden;
+  gap: 1.25rem;
 }
 
 .service {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 190px;
-  padding: 1.4rem 1.5rem;
-  background: var(--navy-950);
-  isolation: isolate;
-  transition: background 0.4s;
+  border-radius: var(--radius);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(4, 14, 28, 0.28);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
-/* Soft light that follows the cursor (position set in script.js) */
-.service::before {
+.service:hover,
+.service:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 46px rgba(4, 14, 28, 0.4);
+}
+
+.service__media {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  height: 140px;
+  padding: 14px 18px;
+  overflow: hidden;
+  background-image:
+    linear-gradient(180deg, rgba(4, 14, 28, 0.15) 0%, rgba(4, 14, 28, 0.55) 70%, rgba(4, 14, 28, 0.85) 100%),
+    var(--media-img, linear-gradient(135deg, var(--blue-600), var(--navy-800)));
+  background-size: cover;
+  background-position: center;
+}
+
+/* Fallback pattern shown only while no real photo (--media-img) is set on the card */
+.service__media:not([style*="media-img"])::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
-  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(111, 155, 209, 0.16), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s;
+  background: repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.05) 0 10px, rgba(255, 255, 255, 0) 10px 22px);
+  pointer-events: none;
 }
-
-/* Accent line that draws across the top on hover */
-.service::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--sky-300), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s var(--ease);
-}
-
-.service:hover::before,
-.service:focus-visible::before { opacity: 1; }
-.service:hover::after,
-.service:focus-visible::after { transform: scaleX(1); }
-
-.service__top { display: flex; align-items: flex-start; justify-content: space-between; }
 
 .service__num {
   font-family: var(--font-accent);
   font-style: italic;
-  font-size: 1.05rem;
-  color: rgba(111, 155, 209, 0.55);
+  font-weight: 500;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.service__icon {
+.service__badge {
+  position: absolute;
+  left: 22px;
+  top: 110px;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--line);
+  width: 60px;
+  height: 60px;
+  border: 4px solid #fff;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--sky-300);
-  transition: background 0.3s, color 0.3s, transform 0.4s var(--ease);
+  background: #fff;
+  color: var(--blue-600);
+  box-shadow: 0 10px 24px rgba(12, 32, 58, 0.28);
 }
 
-.service:hover .service__icon { background: var(--sky-200); color: var(--navy-800); transform: rotate(-8deg) scale(1.06); }
+.service__badge .icon { width: 24px; height: 24px; stroke-width: 1.6; }
 
-.service h3 { margin-top: 1.9rem; font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
-.service p { margin-top: 0.4rem; font-size: 0.82rem; line-height: 1.55; }
+.service__body {
+  display: block;
+  padding: 38px 22px 24px;
+}
 
-.service__more {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: auto;
-  padding-top: 0.9rem;
-  font-size: 0.66rem;
+.service__body h3 {
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--sky-300);
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.3s, transform 0.4s var(--ease);
+  line-height: 1.3;
+  color: var(--navy-900);
 }
 
-.service__more .icon { width: 14px; height: 14px; }
-.service:hover .service__more,
-.service:focus-visible .service__more { opacity: 1; transform: none; }
+.service__body p {
+  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
 
-.services__note,
-.services__cta { display: flex; align-items: center; padding: 1.5rem; }
-.services__note { background: #0d2340; }
-.services__note h3 { font-size: 1.02rem; font-weight: 700; }
-
-.services__cta {
-  grid-column: span 2;
+/* Highlighted bar under the grid: "not sure which service" + call/quote */
+.services__banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: 1.25rem 2rem;
-  flex-wrap: wrap;
-  background: #131c28;
+  margin-top: 1.25rem;
+  padding: 1.75rem clamp(1.25rem, 4vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--blue-600), var(--blue-500) 60%, var(--steel-400));
+  color: #fff;
 }
 
-.services__cta p { max-width: 24rem; font-size: 0.88rem; }
-.services__cta-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.services__banner h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.services__banner p {
+  margin-top: 0.4rem;
+  max-width: 26rem;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.services__banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
 
 /* ---------- 10. Why us ---------- */
 .why__grid {
@@ -1000,6 +1017,8 @@ button, input, select, textarea { font: inherit; }
   padding-block: clamp(2.5rem, 5vw, 3.5rem);
 }
 
+.footer__brand .brand { padding-left: 0; }
+.footer__brand .brand__logo { height: 72px; }
 .footer__brand p { max-width: 22rem; margin-top: 1.1rem; font-size: 0.82rem; line-height: 1.65; }
 .footer h4 { margin-bottom: 1rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
 .footer li + li { margin-top: 0.55rem; }
@@ -1088,9 +1107,9 @@ button, input, select, textarea { font: inherit; }
   }
 }
 
-/* Touch screens have no hover, so keep the "Enquire" hint visible */
+/* Touch screens have no hover — keep cards looking tappable without hover states */
 @media (hover: none) {
-  .service__more { opacity: 0.75; transform: none; }
+  .service:active { transform: translateY(-2px); }
 }
 
 /* ---------- 16. Responsive ---------- */
@@ -1128,9 +1147,6 @@ button, input, select, textarea { font: inherit; }
   .about__media { max-width: 420px; }
 
   .services { grid-template-columns: repeat(2, 1fr); }
-  .service:last-of-type { grid-column: span 2; min-height: 150px; }
-  .services__note { grid-column: span 2; }
-  .services__cta { grid-column: span 2; }
 
   .why__grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -1162,14 +1178,9 @@ button, input, select, textarea { font: inherit; }
   .checklist { grid-template-columns: 1fr; }
 
   .services { grid-template-columns: 1fr; }
-  .service:last-of-type,
-  .services__note,
-  .services__cta { grid-column: auto; }
-  .service { min-height: 0; padding: 1.25rem; }
-  .service h3 { margin-top: 1.25rem; }
-  .services__cta-actions { width: 100%; }
-  .services__cta-actions .btn { flex: 1; padding-inline: 1rem; white-space: nowrap; }
-  .service__more { display: none; }
+  .services__banner { flex-direction: column; align-items: flex-start; }
+  .services__banner-actions { width: 100%; }
+  .services__banner-actions .btn { flex: 1; }
 
   .why__grid { grid-template-columns: 1fr; }
   .statement { flex-direction: column; align-items: flex-start; }
