@@ -141,7 +141,7 @@ button, input, select, textarea { font: inherit; }
 
 .title--hero {
   font-size: clamp(1.8rem, 5vw, 4.5rem);
-  margin-top: 100px;
+  margin-top: 120px;
   line-height: 0.98;
   letter-spacing: -0.025em;
   max-width: 12em;
@@ -236,7 +236,8 @@ button, input, select, textarea { font: inherit; }
 .header.is-scrolled .header__bar,
 .header.menu-open .header__bar {
   max-width: 1060px;
-  background: rgba(8, 21, 38, 0.72);
+  background: rgba(100, 100, 100, 0.72);
+  
   border-color: rgba(255, 255, 255, 0.14);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
   -webkit-backdrop-filter: blur(16px);
@@ -251,7 +252,7 @@ button, input, select, textarea { font: inherit; }
 
   
 }
-.brand__logo { display: block; height: 55px; width: auto; max-width: none; }
+.brand__logo { display: block; height: 45px; width: auto; max-width: none; }
 
 .nav { justify-self: center; }
 .nav__list { display: flex; gap: 2.2rem; }
@@ -262,7 +263,7 @@ button, input, select, textarea { font: inherit; }
   padding: 0.4rem 0;
   font-size: 0.92rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(245, 244, 244, 0.88);
 }
 
 .nav a:not(.btn)::after {
@@ -320,7 +321,7 @@ button, input, select, textarea { font: inherit; }
    Hero photo: save your image as images/hero.jpg (1920px wide or more
    works best). Until that file exists, the second image is used. */
 .hero {
-  --hero-image: url("images/bg.jpg");
+  --hero-image: url("images/hero bg.png");
 
   position: relative;
   display: grid;
